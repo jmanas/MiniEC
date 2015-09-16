@@ -306,7 +306,8 @@ public class AlgoGUI
                 clearAreas();
                 try {
                     String s = aksField.getText().trim();
-                    if (s.length() == 0) return;
+                    if (s.length() == 0)
+                        return;
                     int n = Integer.parseInt(s);
                     keyA = new Key(curve, G, n);
                     akpField.setText(keyA.getKp().toString());
@@ -332,7 +333,8 @@ public class AlgoGUI
                 clearAreas();
                 try {
                     String s = bksField.getText().trim();
-                    if (s.length() == 0) return;
+                    if (s.length() == 0)
+                        return;
                     int n = Integer.parseInt(s);
                     keyB = new Key(curve, G, n);
                     bkpField.setText(keyB.getKp().toString());
@@ -380,9 +382,10 @@ public class AlgoGUI
             return true;
         if (n % 2 == 0)
             return false;
-        for (int i = 3; i * i <= n; i += 2)
+        for (int i = 3; i * i <= n; i += 2) {
             if (n % i == 0)
                 return false;
+        }
         return true;
     }
 
@@ -412,8 +415,10 @@ public class AlgoGUI
             try {
                 ecdhA.setText("");
                 ecdhB.setText("");
-                if (keyA == null) return;
-                if (keyB == null) return;
+                if (keyA == null)
+                    return;
+                if (keyB == null)
+                    return;
                 String msgA = String.format(
                         "A.ks * B.kp= %s",
                         curve.mul(keyA.getKs(), keyB.getKp())
@@ -434,9 +439,11 @@ public class AlgoGUI
             extends AbstractAction {
         public void actionPerformed(ActionEvent e) {
             try {
-                if (keyB == null) return;
+                if (keyB == null)
+                    return;
                 String redMsg = messageToEncryptField_dh.getText().trim();
-                if (redMsg.length() == 0) return;
+                if (redMsg.length() == 0)
+                    return;
 
                 Point pK;
                 {
@@ -477,9 +484,11 @@ public class AlgoGUI
                 String msgB = "";
                 ecdsaA.setText(msgA);
                 ecdsaB.setText(msgB);
-                if (keyA == null) return;
+                if (keyA == null)
+                    return;
                 String text = messageToSignField.getText().trim();
-                if (text.length() == 0) return;
+                if (text.length() == 0)
+                    return;
                 int msg = Integer.parseInt(text);
                 int k;
                 int r, s;
@@ -491,14 +500,18 @@ public class AlgoGUI
                         return;
                     }
                     k = random.nextInt(zn.getP());
-                    if (k == 0) continue;
+                    if (k == 0)
+                        continue;
                     Point R = curve.mul(k, G);
-                    if (R.equals(Point.O)) continue;
+                    if (R.equals(Point.O))
+                        continue;
                     r = zn.mod((int) R.getX());
-                    if (r == 0) continue;
+                    if (r == 0)
+                        continue;
                     int k_1 = zn.inv(k);
                     s = zn.mul(k_1, zn.add(msg, zn.mul(r, keyA.getKs())));
-                    if (s == 0) continue;
+                    if (s == 0)
+                        continue;
                     break;
                 }
                 msgA += String.format("%s: %d%n", Text.get("input"), msg);
