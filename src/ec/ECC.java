@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class ECC {
 //    private static final String TITLE = "Criptograf\u00EDa de Curvas El\u00EDpticas / 16.7.2015";
-    private static final String TITLE = Text.get("ECC") + " / 16.7.2015";
+    private static final String TITLE = Text.get("ECC") + " / 23.9.2015";
 
     private static final String BODY;
 

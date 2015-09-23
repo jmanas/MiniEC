@@ -64,6 +64,7 @@ public class CGUI
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu(Text.get("examples"));
         menuBar.add(menu);
+        menu.add(mkExample(29));
         menu.add(mkExample(23));
         menu.add(mkExample(19));
         menu.add(mkExample(17));
@@ -357,32 +358,50 @@ public class CGUI
     }
 
     public void actionPerformed(ActionEvent e) {
-        String which = e.getActionCommand();
-        if (which.equals("p = 23")) {
-            pTextField.setText("23");
-            aTextField.setText("1");
-            bTextField.setText("4");
+        try {
+            String which = e.getActionCommand();
+            Example example = Example.get(getP(which));
+            pTextField.setText(String.valueOf(example.getP()));
+            aTextField.setText(String.valueOf(example.getA()));
+            bTextField.setText(String.valueOf(example.getB()));
             goButton.doClick();
-        } else if (which.equals("p = 19")) {
-            pTextField.setText("19");
-            aTextField.setText("2");
-            bTextField.setText("3");
-            goButton.doClick();
-        } else if (which.equals("p = 17")) {
-            pTextField.setText("19");
-            aTextField.setText("1");
-            bTextField.setText("2");
-            goButton.doClick();
-        } else if (which.equals("p = 13")) {
-            pTextField.setText("13");
-            aTextField.setText("1");
-            bTextField.setText("1");
-            goButton.doClick();
-        } else if (which.equals("p = 11")) {
-            pTextField.setText("11");
-            aTextField.setText("1");
-            bTextField.setText("0");
-            goButton.doClick();
+        } catch (Exception ignored) {
         }
+
+//        if (which.equals("p = 23")) {
+//            pTextField.setText("23");
+//            aTextField.setText("1");
+//            bTextField.setText("4");
+//            goButton.doClick();
+//        } else if (which.equals("p = 19")) {
+//            pTextField.setText("19");
+//            aTextField.setText("2");
+//            bTextField.setText("3");
+//            goButton.doClick();
+//        } else if (which.equals("p = 17")) {
+//            pTextField.setText("17");
+//            aTextField.setText("1");
+//            bTextField.setText("2");
+//            goButton.doClick();
+//        } else if (which.equals("p = 13")) {
+//            pTextField.setText("13");
+//            aTextField.setText("1");
+//            bTextField.setText("1");
+//            goButton.doClick();
+//        } else if (which.equals("p = 11")) {
+//            pTextField.setText("11");
+//            aTextField.setText("1");
+//            bTextField.setText("0");
+//            goButton.doClick();
+//        }
+    }
+
+    private int getP(String which) {
+        int p = 0;
+        for (char ch : which.toCharArray()) {
+            if (Character.isDigit(ch))
+                p = 10 * p + ch - '0';
+        }
+        return p;
     }
 }

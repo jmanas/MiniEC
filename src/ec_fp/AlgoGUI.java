@@ -78,7 +78,12 @@ public class AlgoGUI
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu(Text.get("examples"));
         menuBar.add(menu);
+        menu.add(mkExample(29));
         menu.add(mkExample(23));
+        menu.add(mkExample(19));
+        menu.add(mkExample(17));
+//        menu.add(mkExample(13));
+//        menu.add(mkExample(11));
         return menuBar;
     }
 
@@ -380,14 +385,35 @@ public class AlgoGUI
     }
 
     public void actionPerformed(ActionEvent e) {
-        String which = e.getActionCommand();
-        if (which.equals("p = 23")) {
-            pTextField.setText("23");
-            aTextField.setText("1");
-            bTextField.setText("4");
-            gTextField.setText("18, 14");
+        try {
+            String which = e.getActionCommand();
+            Example example = Example.get(getP(which));
+            if (example == null || example.getG() == null)
+                return;
+            pTextField.setText(String.valueOf(example.getP()));
+            aTextField.setText(String.valueOf(example.getA()));
+            bTextField.setText(String.valueOf(example.getB()));
+            gTextField.setText(example.getG());
             goButton.doClick();
+        } catch (Exception ignored) {
         }
+
+//        if (which.equals("p = 23")) {
+//            pTextField.setText("23");
+//            aTextField.setText("1");
+//            bTextField.setText("4");
+//            gTextField.setText("18, 14");
+//            goButton.doClick();
+//        }
+    }
+
+    private int getP(String which) {
+        int p = 0;
+        for (char ch : which.toCharArray()) {
+            if (Character.isDigit(ch))
+                p = 10 * p + ch - '0';
+        }
+        return p;
     }
 
     private class ECDHMouseListener
