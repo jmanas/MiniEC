@@ -201,8 +201,12 @@ public class AlgoGUI
                             buffer.append(" + x");
                         if (a > 1)
                             buffer.append(String.format(" + %dx", a));
+                        if (a < 0)
+                            buffer.append(String.format(" - %dx", -a));
                         if (b > 0)
                             buffer.append(String.format(" + %d", b));
+                        if (b < 0)
+                            buffer.append(String.format(" - %d", -b));
                         buffer.append(String.format(" (F<sub>%d</sub>)", p));
                         equationLabel.setText(buffer.toString());
                     }

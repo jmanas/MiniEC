@@ -133,15 +133,6 @@ public class GF2m {
     }
 
     public long div(long a, long b) {
-//        long quotient = 0;
-//        int gn = grado(a);
-//        int dn = grado(b);
-//        while (a > 0 && gn >= dn) {
-//            quotient ^= mask[gn - dn];
-//            a ^= raw_mul(quotient, b);
-//            gn = grado(a);
-//        }
-//        return quotient;
         return mul(a, inv(b));
     }
 
@@ -179,8 +170,6 @@ public class GF2m {
         long a1 = 0;
         long a2 = 1;
         while (b3 > 1) {
-//            long q = div(a3, b3);
-//            long t3 = mod(a3, b3);
             long a = a3;
             long q = 0;
             {

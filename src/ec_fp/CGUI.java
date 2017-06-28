@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.util.Set;
 
@@ -130,8 +132,12 @@ public class CGUI
                         buffer.append(" + x");
                     if (a > 1)
                         buffer.append(String.format(" + %dx", a));
+                    if (a < 0)
+                        buffer.append(String.format(" - %dx", -a));
                     if (b > 0)
                         buffer.append(String.format(" + %d", b));
+                    if (b < 0)
+                        buffer.append(String.format(" - %d", -b));
                     buffer.append(String.format(" (F<sub>%d</sub>)", p));
 //                    buffer.append(String.format(" [%d puntos + O]", points.size()));
 //                    curvaLabel.setText(buffer.toString());
@@ -197,6 +203,7 @@ public class CGUI
         pField = new JTextField(7);
         qField = new JTextField(7);
         kField = new JTextField(7);
+        JButton plusButton = new JButton("+");
         pqField = new JTextField(7);
         pqField.setEditable(false);
         p2Field = new JTextField(7);
@@ -207,6 +214,7 @@ public class CGUI
         panel.addItem("P", pField);
         panel.addItem("Q", qField);
         panel.addItem("k", kField);
+        panel.addItem(" ", plusButton);
         panel.addItem("P+Q", pqField);
         panel.addItem("2P", p2Field);
         panel.addItem("kP", kpField);
@@ -220,6 +228,20 @@ public class CGUI
         pField.addActionListener(action);
         qField.addActionListener(action);
         kField.addActionListener(action);
+
+        plusButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int k = Integer.parseInt(kField.getText());
+                    k++;
+                    kField.setText(String.valueOf(k));
+                    calcNumbers();
+                    numberPanel.repaint();
+                } catch (Exception ignored) {
+                }
+            }
+        });
         return panel;
     }
 
@@ -308,25 +330,30 @@ public class CGUI
         // lineas horizontales
         for (int y = 0; y < p; y++) {
             int py = pixelY(y);
-            g.setColor(Color.GRAY);
+            g.setColor(y == 0 ? Color.BLACK : Color.LIGHT_GRAY);
             g.drawLine(30, py, width - 10, py);
-            g.setColor(Color.BLACK);
-            g.drawString(String.valueOf(y), 10, py + 6);
+            if (y % 5 == 0) {
+                g.setColor(Color.BLACK);
+                g.drawString(String.valueOf(y), 10, py + 6);
+            }
         }
         // lineas verticales
         for (int x = 0; x < p; x++) {
             int px = pixelX(x);
-            g.setColor(Color.GRAY);
+            g.setColor(x == 0 ? Color.BLACK : Color.LIGHT_GRAY);
             g.drawLine(px, height - 30, px, 10);
-            g.setColor(Color.BLACK);
-            g.drawString(String.valueOf(x), px - 6, height - 10);
+            if (x % 5 == 0) {
+                g.setColor(Color.BLACK);
+                g.drawString(String.valueOf(x), px - 6, height - 10);
+            }
         }
         // points
+        g.setColor(Color.BLACK);
         for (Point point : points) {
             int px = pixelX(point.getX());
             int py = pixelY(point.getY());
             int radio = 3;
-            g.drawOval(px - radio, py - radio, 2 * radio, 2 * radio);
+            g.fillOval(px - radio, py - radio, 2 * radio, 2 * radio);
         }
     }
 

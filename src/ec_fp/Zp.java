@@ -69,6 +69,8 @@ public class Zp {
             b2 = t2;
             b3 = t3;
         }
+        if (b2 < 0)
+            b2 += p;
         return b2;
     }
 

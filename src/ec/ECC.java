@@ -10,8 +10,7 @@ import java.awt.*;
  * @version 22-abr-2009
  */
 public class ECC {
-//    private static final String TITLE = "Criptograf\u00EDa de Curvas El\u00EDpticas / 16.7.2015";
-    private static final String TITLE = Text.get("ECC") + " / 23.9.2015";
+    private static final String TITLE = Text.get("ECC") + " / 20.6.2017";
 
     private static final String BODY;
 
