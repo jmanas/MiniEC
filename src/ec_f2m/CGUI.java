@@ -43,12 +43,7 @@ public class CGUI
         setup(getContentPane());
     }
 
-    public void init(JDialog dialog) {
-        dialog.setJMenuBar(getMenuBar());
-        setup(dialog.getContentPane());
-    }
-
-    public void init(JFrame frame) {
+    private void init(JFrame frame) {
         frame.setJMenuBar(getMenuBar());
         setup(frame.getContentPane());
     }

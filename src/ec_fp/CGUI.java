@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.util.Set;
 
@@ -50,11 +48,6 @@ public class CGUI
     public void init() {
         setJMenuBar(getMenuBar());
         setup(getContentPane());
-    }
-
-    public void init(JDialog dialog) {
-        dialog.setJMenuBar(getMenuBar());
-        setup(dialog.getContentPane());
     }
 
     public void init(JFrame frame) {

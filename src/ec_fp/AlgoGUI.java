@@ -56,9 +56,9 @@ public class AlgoGUI
     private JTextArea ecdhA;
     private JTextArea ecdhB;
 
-    private JTextField messageToEncryptField_dh;
-    private JTextArea ec_dh_A_1;
-    private JTextArea ec_dh_B_1;
+    private JTextField messageToEncryptField;
+    private JTextArea eciesA;
+    private JTextArea eciesB;
 
     private JTextField messageToSignField;
     private JTextArea ecdsaA;
@@ -69,7 +69,7 @@ public class AlgoGUI
         getContentPane().add(new JScrollPane(setup()));
     }
 
-    public void init(JFrame frame) {
+    private void init(JFrame frame) {
         frame.setJMenuBar(getMenuBar());
         frame.getContentPane().add(new JScrollPane(setup()));
     }
@@ -119,14 +119,14 @@ public class AlgoGUI
         ecdhLabel.addMouseListener(new ECDHMouseListener());
         mkAlg(panel, ecdhLabel, ecdhA, ecdhB);
 
-        messageToEncryptField_dh = new JTextField(10);
-        ec_dh_A_1 = new JTextArea(4, AREA_WIDTH);
-        ec_dh_B_1 = new JTextArea(4, AREA_WIDTH);
-        messageToEncryptField_dh.addActionListener(new EncryptDHActionListener());
-        JPanel ec_dhPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        ec_dhPanel.add(new JLabel("ECDH - " + Text.get("message") + ": "));
-        ec_dhPanel.add(messageToEncryptField_dh);
-        mkAlg(panel, ec_dhPanel, ec_dh_A_1, ec_dh_B_1);
+        messageToEncryptField = new JTextField(10);
+        eciesA = new JTextArea(4, AREA_WIDTH);
+        eciesB = new JTextArea(4, AREA_WIDTH);
+        messageToEncryptField.addActionListener(new ECIESActionListener());
+        JPanel eciesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        eciesPanel.add(new JLabel("ECIES - " + Text.get("message") + ": "));
+        eciesPanel.add(messageToEncryptField);
+        mkAlg(panel, eciesPanel, eciesA, eciesB);
 
         messageToSignField = new JTextField(10);
         ecdsaA = new JTextArea(4, AREA_WIDTH);
@@ -342,10 +342,10 @@ public class AlgoGUI
     private void clearAreas() {
         ecdhA.setText("");
         ecdhB.setText("");
-        if (ec_dh_A_1 != null)
-            ec_dh_A_1.setText("");
-        if (ec_dh_B_1 != null)
-            ec_dh_B_1.setText("");
+        if (eciesA != null)
+            eciesA.setText("");
+        if (eciesB != null)
+            eciesB.setText("");
         if (ecdsaA != null)
             ecdsaA.setText("");
         if (ecdsaB != null)
@@ -446,13 +446,13 @@ public class AlgoGUI
         }
     }
 
-    private class EncryptDHActionListener
+    private class ECIESActionListener
             extends AbstractAction {
         public void actionPerformed(ActionEvent e) {
             try {
                 if (keyB == null)
                     return;
-                String redMsg = messageToEncryptField_dh.getText().trim();
+                String redMsg = messageToEncryptField.getText().trim();
                 if (redMsg.length() == 0)
                     return;
 
@@ -463,23 +463,23 @@ public class AlgoGUI
                     Point shared = curve.mul(k, keyB.getKp());
 
                     String msgA = "";
-                    ec_dh_A_1.setText(msgA);
+                    eciesA.setText(msgA);
                     msgA += String.format("%s: %s%n", Text.get("input"), redMsg);
                     msgA += String.format("k= %d; pK= %s%n", k, pK);
                     msgA += String.format("S= k * B.kp= %d * %s= %s%n", k, keyB.getKp(), shared);
                     msgA += String.format("%s= [%s, %s(%s, %s)]%n", Text.get("output"), pK, Text.get("encrypt"), "S", redMsg);
-                    ec_dh_A_1.setText(msgA);
+                    eciesA.setText(msgA);
                 }
 
                 {
                     Point shared = curve.mul(keyB.getKs(), pK);
 
                     String msgB = "";
-                    ec_dh_B_1.setText(msgB);
+                    eciesB.setText(msgB);
                     msgB += String.format("%s= [%s, %s]%n", Text.get("input"), pK, "***");
                     msgB += String.format("S= B.ks * S= %d * %s= %s%n", keyB.getKs(), pK, shared);
                     msgB += String.format("%s= %s(S, %s)= %s%n", Text.get("output"), Text.get("decrypt"), "***", redMsg);
-                    ec_dh_B_1.setText(msgB);
+                    eciesB.setText(msgB);
                 }
             } catch (Exception x) {
                 JOptionPane.showMessageDialog(null, x.getMessage());
@@ -501,6 +501,7 @@ public class AlgoGUI
                 if (text.length() == 0)
                     return;
                 int msg = Integer.parseInt(text);
+
                 int k;
                 int r, s;
                 int ntries = 0;

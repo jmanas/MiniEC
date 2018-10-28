@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by jose on 15-Jul-15.
+ * @author Jose A. Manas
+ * @version 15-jul-2005
  */
 public class Text {
     private static Map<String, String> dictionary= new HashMap<>();

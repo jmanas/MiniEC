@@ -19,11 +19,11 @@ public class Curve {
         return add(mul(4, a, a, a), mul(27, b, b)) != 0;
     }
 
-    public boolean belongs(Point p) {
+    boolean belongs(Point p) {
         return p == Point.O || belongs(p.getX(), p.getY());
     }
 
-    public boolean belongs(int x, int y) {
+    private boolean belongs(int x, int y) {
         int left = mul(y, y);
         int right = add(mul(x, x, x), mul(a, x), b);
         return left == right;
@@ -53,7 +53,7 @@ public class Curve {
         return new Point(xr, yr);
     }
 
-    public Point twice(Point p) {
+    private Point twice(Point p) {
         int xp = p.getX();
         int yp = p.getY();
         if (yp == 0)
@@ -110,7 +110,7 @@ public class Curve {
     }
 
     public Set<Point> points() {
-        Set<Point> points = new HashSet<Point>();
+        Set<Point> points = new HashSet<>();
         int p = field.getP();
         for (int x = 0; x < p; x++)
             for (int y = 0; y <= p / 2; y++)

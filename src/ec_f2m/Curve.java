@@ -19,7 +19,7 @@ public class Curve {
         this.b = b;
     }
 
-    public boolean isGroup() {
+    boolean isGroup() {
         return b != 0;
     }
 
@@ -27,7 +27,7 @@ public class Curve {
         return p == Point.O || belongs(p.getX(), p.getY());
     }
 
-    public boolean belongs(long x, long y) {
+    private boolean belongs(long x, long y) {
         long left = add(mul(y, y), mul(x, y));
         long right = add(mul(x, x, x), mul(a, x, x), b);
         return left == right;
@@ -114,7 +114,7 @@ public class Curve {
     }
 
     public Set<Point> points() {
-        Set<Point> points = new HashSet<Point>();
+        Set<Point> points = new HashSet<>();
         long max = 1 << getM();
         for (long x = 0; x < max; x++)
             for (long y = 0; y < max; y++)

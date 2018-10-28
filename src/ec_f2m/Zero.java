@@ -6,7 +6,6 @@ package ec_f2m;
  */
 public class Zero
         extends Point {
-    private int kk;
 
     public Zero() {
         super(-1, -1);
